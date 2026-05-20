@@ -1,75 +1,66 @@
-# Cursor 하네스 — backend (FastAPI)
+# Cursor 하네스 — com.ragwatson (모노레포)
 
-이 파일을 읽은 뒤, **반드시 `docs/` 아래 코딩 규칙 문서를 인지한 다음** 코드를 작성한다.  
-하네스 요약만으로 구현하지 않는다. 상세·도메인 규칙은 **docs가 단일 출처(SSOT)** 이다.
+구현 전 **`docs/` 코딩 규칙을 인지**한다.  
+**공통 지침 = `docs/DevOps/`** · **제품·기능 상세 = `docs/{프로젝트}/`** (예: `docs/HACCP 개발/`).
 
-**트레이드오프:** 속도보다 신중함. 사소한 작업은 판단으로 완화한다.
+**트레이드오프:** 속도보다 신중함. 사소한 작업은 판단으로 완화.
 
 ---
 
-## 0. 구현 전 필수 — `docs/` 규칙 인지 (Mandatory)
+## 0. 구현 전 필수 (Mandatory)
 
 ### 작업 순서
 
-1. 본 파일(`.cursorrules`)과 `backend/CLAUDE.md` 확인  
-2. **아래 표에서 작업에 맞는 MD를 Read 도구로 읽거나** 채팅에 `@` 로 첨부  
-3. 문서와 충돌하는 패턴이 있으면 **문서 우선** (더 구체적인 `docs/` 지침이 이 파일보다 우선)  
-4. 그 다음에만 `backend/apps/` 코드 작성·수정  
+1. 본 파일 + (해당 시) `CLAUDE.md` / `backend/CURSOR.md`  
+2. **`docs/DevOps/FOUNDATIONS.md`** — 공통 방향성  
+3. 스택별: **`docs/DevOps/Backend/BACKEND_RULES.md`** 또는 **`docs/DevOps/Frontend/REACT_RULES.md`**  
+4. 해당 제품 작업이면 **`docs/HACCP 개발/`** 등 프로젝트 docs (`docs/DevOps/Projects/README.md` 참고)  
+5. 그 다음 코드 작성·수정  
 
-### 규칙 문서 경로 (모노레포 루트 기준)
+### 우선순위
 
-| 우선순위 | 경로 | 언제 읽는가 |
-|----------|------|-------------|
-| 1 | `docs/DevOps/Backend/BACKEND_RULES.md` | **모든 백엔드** 코드·API·DB 작업 |
-| 2 | `docs/HACCP 개발/haccp_monitor_phase2_cursor_prompt.md` | Phase 2 (규격 API, 공급망, Gemini 툴) |
-| 2 | `docs/HACCP 개발/haccp_monitor_cursor_prompt.md` | Phase 1 (회수, 행정처분, 채팅, 프론트 mock 맥락) |
-| 3 | `docs/DevOps/Frontend/REACT_RULES.md` | API 스키마가 프론트 폼·응답과 맞아야 할 때 |
-| — | `docs/DevOps/README.md` | 규칙 파일 위치만 확인할 때 |
+**프로젝트·기능 docs** > **DevOps 스택 RULES** > **FOUNDATIONS** > 본 파일 요약.
 
-backend 서브모듈만 체크아웃된 경우: 위 경로는 **`../docs/...`** (상위 모노레포의 `docs`).
+### 규칙 경로 (저장소 루트)
 
-### 인지 완료 표시 (내부용)
+| 경로 | 용도 |
+|------|------|
+| `docs/DevOps/README.md` | DevOps 인덱스 |
+| `docs/DevOps/FOUNDATIONS.md` | 전 스택 공통 원칙 |
+| `docs/DevOps/Backend/BACKEND_RULES.md` | 백엔드 작업 |
+| `docs/DevOps/Frontend/REACT_RULES.md` | 프론트 작업 |
+| `docs/DevOps/Projects/README.md` | 제품별 docs 위치 |
+| `docs/HACCP 개발/*.md` | HACCP Monitor 전용 STEP (해당 작업 시만) |
 
-규칙을 읽었으면 구현 답변 전에 한 줄로 명시한다. 예:
+서브모듈만 clone 시: `docs`는 상위 모노레포 **`../docs/`**.
 
-`docs 인지: BACKEND_RULES.md (+ 해당 HACCP STEP)`
+### 인지 완료 (한 줄)
+
+`docs 인지: FOUNDATIONS + [Backend|Frontend]_RULES (+ 프로젝트 MD)`
 
 ---
 
-## 1. 백엔드 핵심 (요약 — 상세는 BACKEND_RULES.md)
+## 1. 공통 요약 (상세는 DevOps MD)
 
-- **레이어:** Controller → Service → Repository (`secom`, `signup` 참고)  
-- **진입점:** `backend/apps/main.py` — 라우트·의존성만, 로직은 도메인 모듈  
-- **환경변수:** `DATABASE_URL`, `GEMINI_API_KEY`, `WEATHER_API_KEY`, `FOOD_SAFETY_API_KEY` (이름 변경 금지)  
-- **식안나 캐시:** 있으면 즉시 응답, 갱신은 백그라운드 — 요청 스레드에서 장시간 OpenAPI 동기 호출 금지  
-- **회원가입:** `Depends(get_db)` + Signup C-S-R 경로  
+- **백엔드:** Controller → Service → Repository · `main`은 라우트·DI만 · env는 프로젝트 문서·`.env.example` 기준  
+- **외부 API:** 캐시 즉시 반환, 갱신은 백그라운드  
+- **프론트:** useState 남용 금지 · 단일 state 객체 · FormData 제출  
+- **범위:** 요청과 무관한 diff 금지 · 검증 방법 제시  
 
 ---
 
 ## 2. 하네스 원칙
 
-- **명시성:** 암묵적 가정 금지. 불확실하면 `docs`·사용자에게 구현 전 질문.  
-- **검증 가능성:** 테스트·`uvicorn`·`/health`·`/docs` 등으로 완료 기준 제시.  
-- **최소 표면:** 요청 범위 밖 파일·리팩터링 금지.  
-- **루프:** docs 인지 → 계획 → 실행 → 검증.
+명시성 · 검증 가능성 · 최소 표면 · docs 인지 → 계획 → 실행 → 검증.  
+전문: `CLAUDE.md`.
 
 ---
 
-## 3. 구현 전 사고 · 단순성 · 정밀 수정 · 목표 중심
-
-- 가정·대안·더 단순한 해법을 구현 전에 드러낸다.  
-- 요청을 넘는 추상화·방어 코드·일회성 일반화 금지.  
-- diff는 요청과 직접 연결. 기존 스타일·패턴 유지.  
-- 성공 기준을 한두 문장으로 정한 뒤 작업한다.  
-
-전문: `backend/CLAUDE.md` (Karpathy 가이드라인).
-
----
-
-## 4. Cursor 프롬프트 (사용자용)
+## 3. Cursor 프롬프트 (사용자용)
 
 ```text
-@backend/.cursorrules @docs/DevOps/Backend/BACKEND_RULES.md
+@docs/DevOps/FOUNDATIONS.md @docs/DevOps/[Backend|Frontend]/..._RULES.md
 
-docs 규칙을 인지한 뒤, [작업 설명]. C-S-R 패턴·main.py 라우트만 수정.
+공통 DevOps 지침 인지 후 [작업].
+HACCP 등 제품 스펙이 필요하면 docs/HACCP 개발/ 해당 MD 추가 참고.
 ```
