@@ -1,0 +1,9 @@
+{
+  "python.analysis.exclude": [
+    "**/.venv/**",
+    "**/node_modules/**"
+  ],
+  "files.exclude": {
+    "**/.venv": true
+  }
+}

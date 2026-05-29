@@ -1,0 +1,9 @@
+{
+  "extraPaths": ["backend/apps"],
+  "pythonVersion": "3.13",
+  "typeCheckingMode": "basic",
+  "exclude": [
+    "backend/apps/mfds",
+    ".venv"
+  ]
+}
