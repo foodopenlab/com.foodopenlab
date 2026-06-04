@@ -1,5 +1,5 @@
 {
-  "extraPaths": ["backend/apps"],
+  "extraPaths": ["backend/core", "backend/apps"],
   "pythonVersion": "3.13",
   "typeCheckingMode": "basic",
   "exclude": [
