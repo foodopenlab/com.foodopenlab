@@ -2,8 +2,5 @@
   "extraPaths": ["backend/core", "backend/apps"],
   "pythonVersion": "3.13",
   "typeCheckingMode": "basic",
-  "exclude": [
-    "backend/apps/friday13th/legacy/mfds",
-    ".venv"
-  ]
+  "exclude": [".venv"]
 }
