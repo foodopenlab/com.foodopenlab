@@ -1,66 +1,123 @@
-# Cursor 하네스 — com.ragwatson (모노레포)
+# Cursor Harness — com.foodopenlab (Monorepo)
 
-구현 전 **`docs/` 코딩 규칙을 인지**한다.  
-**공통 지침 = `docs/DevOps/`** · **제품·기능 상세 = `docs/{프로젝트}/`** (예: `docs/HACCP 개발/`).
+Top-level rules take precedence over all other guidance. Product-specific docs (`plan.docs/{project}/`) and stack rules (`plan.docs/DevOps/`) refine but do not override them. Full specification: `CLAUDE.md`.
 
-**트레이드오프:** 속도보다 신중함. 사소한 작업은 판단으로 완화.
+## 1. Harness Engineering (Karpathy)
+
+- **Karpathy-style harness engineering:** the LLM is a component inside a reliable system, not a one-shot code generator.
+- The harness provides structure, verification loops, and constraints so the agent iterates safely toward a defined success criterion.
+- Implementation must be **goal-driven:** define verifiable success criteria before coding; validate after each step.
+
+## 2. PKS — Project Knowledge System (Wiki + LLM)
+
+- **PKS** is the SSOT bridge between **wiki/docs** and **LLM agents**.
+- Before implementation, consult relevant `plan.docs/` material — not only this file.
+- Docs precede code: when docs and code disagree, treat docs as authoritative unless the user explicitly requests a doc update.
+- After meaningful changes, update or propose wiki/docs updates when behavior, contracts, or env keys change.
+
+**PKS workflow (mandatory order):**
+
+1. Read top-level rules in `CLAUDE.md` and this file
+2. Read `plan.docs/DevOps/FOUNDATIONS.md` + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
+3. Read product-specific docs under `plan.docs/{project}/` when applicable
+4. Plan with explicit success criteria
+5. Implement
+6. Verify (test, lint, build, or reproducible manual check)
+
+## 3. Architecture — SOLID + Hexagonal + Clean + DDD
+
+All backend feature work **must** comply with SOLID (especially DIP), Hexagonal Architecture, Clean Architecture, and DDD.
+
+| Layer | Responsibility | Must NOT |
+|-------|----------------|----------|
+| **Inbound adapter** (router, schema) | HTTP validation, request/response mapping | SQL, ORM, external API details, business rules |
+| **Application** (use case, port interfaces) | Use-case orchestration, transaction boundaries | HTTP objects, direct DB driver usage |
+| **Domain** (entity, value object) | Business rules & domain types | FastAPI, SQLAlchemy, HTTP, env access |
+| **Outbound adapter** (pg/memory/orm repository) | Persistence & external I/O | HTTP status decisions, UI concerns |
+| **Dependencies / composition root** | Wire ports to adapters (DI factories only) | Business logic |
+
+**Fractal naming:** mirror the same capability across layers with consistent prefix + suffix (e.g. `crew_walter_roaster_schema`, `crew_walter_roaster_dto`, `crew_walter_roaster_interactor`).
+
+Entry points (`main.py`) remain thin: route registration and DI only.
+
+## 4. Path & Import Conventions
+
+When describing backend locations in plans, comments, PR text, and agent responses:
+
+- **App/domain modules** — `com.auditor/{domain}/...` (omit `apps/`; physical path is `com.auditor/apps/{domain}/...`)
+- **Core/shared modules** — `com.auditor.core.*` (e.g. `com.auditor.core.matrix.grid_oracle_database_manager`)
+
+Python imports stay as the repo uses them today (`titanic.*`, `matrix.*`). The convention above is for documentation and harness communication only.
+
+## 5. Non-Negotiable Engineering Constraints
+
+- Minimal diff: change only what the request requires.
+- No secrets in code or commits.
+- External/slow I/O: cache-first return, refresh in background when applicable.
+- Existing naming and fractal layout take precedence over generic templates.
+
+**Trade-off:** favor carefulness over speed; relax only for trivial, unambiguous tasks.
 
 ---
 
-## 0. 구현 전 필수 (Mandatory)
+# Cursor Agent Workflow (Operational)
 
-### 작업 순서
+For full Karpathy agent-behavior guidelines, see **`CLAUDE.md` § LLM Coding Behavior**.
 
-1. 본 파일 + (해당 시) `CLAUDE.md` / `backend/CURSOR.md`  
-2. **`docs/DevOps/FOUNDATIONS.md`** — 공통 방향성  
-3. 스택별: **`docs/DevOps/Backend/BACKEND_RULES.md`** 또는 **`docs/DevOps/Frontend/REACT_RULES.md`**  
-4. 해당 제품 작업이면 **`docs/HACCP 개발/`** 등 프로젝트 docs (`docs/DevOps/Projects/README.md` 참고)  
-5. 그 다음 코드 작성·수정  
+## Harness file roles
 
-### 우선순위
-
-**프로젝트·기능 docs** > **DevOps 스택 RULES** > **FOUNDATIONS** > 본 파일 요약.
-
-### 규칙 경로 (저장소 루트)
-
-| 경로 | 용도 |
+| File | Role |
 |------|------|
-| `docs/DevOps/README.md` | DevOps 인덱스 |
-| `docs/DevOps/FOUNDATIONS.md` | 전 스택 공통 원칙 |
-| `docs/DevOps/Backend/BACKEND_RULES.md` | 백엔드 작업 |
-| `docs/DevOps/Frontend/REACT_RULES.md` | 프론트 작업 |
-| `docs/DevOps/Projects/README.md` | 제품별 docs 위치 |
-| `docs/HACCP 개발/*.md` | HACCP Monitor 전용 STEP (해당 작업 시만) |
+| `.cursorrules` | Cursor-injected harness rules (this file) |
+| `CLAUDE.md` | Full harness specification + Karpathy agent-behavior guidelines |
+| `plan.docs/DevOps/FOUNDATIONS.md` | Cross-stack foundations |
+| `plan.docs/DevOps/Backend/BACKEND_RULES.md` | Backend coding rules SSOT |
+| `plan.docs/DevOps/Frontend/REACT_RULES.md` | Frontend coding rules SSOT |
+| `plan.docs/DevOps/Projects/README.md` | Product docs index |
+| `plan.docs/{project}/` | Product-specific specs (e.g. `plan.docs/HACCP 개발/`) |
 
-서브모듈만 clone 시: `docs`는 상위 모노레포 **`../docs/`**.
+Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.auditor/` or `watcher.www/`.
 
-### 인지 완료 (한 줄)
+## Priority
 
-`docs 인지: FOUNDATIONS + [Backend|Frontend]_RULES (+ 프로젝트 MD)`
+**Top-level rules (`CLAUDE.md` + this file §1–5)** > **project/feature docs** > **DevOps stack RULES** > **FOUNDATIONS** > operational notes below.
 
----
+## Documentation paths (repo root)
 
-## 1. 공통 요약 (상세는 DevOps MD)
+| Path | Purpose |
+|------|---------|
+| `plan.docs/DevOps/README.md` | DevOps index |
+| `plan.docs/DevOps/FOUNDATIONS.md` | Cross-stack principles |
+| `plan.docs/DevOps/Backend/BACKEND_RULES.md` | Backend work |
+| `plan.docs/DevOps/Frontend/REACT_RULES.md` | Frontend work |
+| `plan.docs/DevOps/Projects/README.md` | Product docs locations |
+| `plan.docs/HACCP 개발/*.md` | HACCP Monitor STEP docs (when applicable) |
 
-- **백엔드:** Controller → Service → Repository · `main`은 라우트·DI만 · env는 프로젝트 문서·`.env.example` 기준  
-- **외부 API:** 캐시 즉시 반환, 갱신은 백그라운드  
-- **프론트:** useState 남용 금지 · 단일 state 객체 · FormData 제출  
-- **범위:** 요청과 무관한 diff 금지 · 검증 방법 제시  
+## Stack summaries (details in DevOps MD)
 
----
+- **Backend:** inbound adapter → application (use case) → outbound adapter · `main` is routes + DI only · env keys per project docs / `.env.example`
+- **External API:** return cache immediately; refresh in background
+- **Frontend:** avoid `useState` sprawl · single state object · `FormData` submission
+- **Scope:** no unrelated diffs · always state a verification method
 
-## 2. 하네스 원칙
+## Operating Cursor with this harness
 
-명시성 · 검증 가능성 · 최소 표면 · docs 인지 → 계획 → 실행 → 검증.  
-전문: `CLAUDE.md`.
+1. **Think before coding:** attach relevant files/rules with `@`; ask before coding when ambiguous.
+2. **Simplicity:** do not add features, config, or abstractions not requested in the chat.
+3. **Surgical changes:** keep diffs tied to the request; avoid adjacent "cleanup" refactors.
+4. **Goal-driven:** prefer reproducible verification (test, build, lint) over "it seems to work."
+5. **Context:** include files, folders, and rules matching the task scope; avoid large guesses from an empty context.
+6. **Loop:** plan → change → verify → iterate only when needed; ask **before** implementation, not only after mistakes.
 
----
-
-## 3. Cursor 프롬프트 (사용자용)
+## User prompt template
 
 ```text
-@docs/DevOps/FOUNDATIONS.md @docs/DevOps/[Backend|Frontend]/..._RULES.md
+@plan.docs/DevOps/FOUNDATIONS.md @plan.docs/DevOps/[Backend|Frontend]/..._RULES.md
 
-공통 DevOps 지침 인지 후 [작업].
-HACCP 등 제품 스펙이 필요하면 docs/HACCP 개발/ 해당 MD 추가 참고.
+Acknowledge DevOps rules, then [task].
+Add @plan.docs/{project}/ when product specs are required.
 ```
+
+## Acknowledgment (one line)
+
+`plan.docs acknowledged: FOUNDATIONS + [Backend|Frontend]_RULES (+ project MD)`

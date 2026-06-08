@@ -1,79 +1,134 @@
-# LLM 코딩 행동 지침 (Karpathy 가이드라인)
+# Project Harness & Architecture (Top-Level Rules)
 
-LLM의 흔한 코딩 실수를 줄이기 위한 행동 지침이다. 프로젝트별 지침이 있으면 본 문서와 병합하여 사용한다.
+These rules take precedence over all other guidance in this repository. Product-specific docs (`plan.docs/{project}/`) and stack rules (`plan.docs/DevOps/`) refine but do not override them.
 
-**트레이드오프:** 속도보다 신중함에 치우친다. 사소한 작업은 상황에 맞게 판단한다.
+## 1. Harness Engineering (Karpathy)
+
+- This monorepo follows **Karpathy-style harness engineering**: the LLM is a component inside a reliable system, not a one-shot code generator.
+- The harness provides structure, verification loops, and constraints so the agent can iterate safely toward a defined success criterion.
+- Implementation work must be **goal-driven**: define verifiable success criteria before coding; validate after each step.
+
+## 2. PKS — Project Knowledge System (Wiki + LLM)
+
+- Implement and maintain **PKS (Project Knowledge System)** as the SSOT bridge between **wiki/docs** and **LLM agents**.
+- Before implementation, consult the relevant `plan.docs/` material (DevOps foundations, stack rules, product docs) — not only `.cursorrules` summaries.
+- Docs precede code: when docs and code disagree, treat docs as authoritative unless the user explicitly requests a doc update.
+- After meaningful changes, update or propose updates to the wiki/docs when behavior, contracts, or env keys change.
+
+**PKS workflow (mandatory order):**
+
+1. Read top-level rules in `CLAUDE.md`
+2. Read `plan.docs/DevOps/FOUNDATIONS.md` + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
+3. Read product-specific docs under `plan.docs/{project}/` when applicable
+4. Plan with explicit success criteria
+5. Implement
+6. Verify (test, lint, build, or reproducible manual check)
+
+## 3. Architecture — SOLID + Hexagonal + Clean + DDD
+
+All backend feature work **must** comply with:
+
+- **SOLID** (especially DIP: depend on ports/abstractions, not concrete adapters)
+- **Hexagonal Architecture** (ports & adapters; inbound vs outbound separation)
+- **Clean Architecture** (dependency rule: outer layers depend inward; domain has no framework imports)
+- **DDD** (domain language in entities/value objects; application layer orchestrates use cases)
+
+| Layer | Responsibility | Must NOT |
+|-------|----------------|----------|
+| **Inbound adapter** (API router, schema) | HTTP validation, request/response mapping | SQL, ORM, external API details, business rules |
+| **Application** (use case / interactor, port interfaces) | Use-case orchestration, transaction boundaries | HTTP objects, direct DB driver usage |
+| **Domain** (entity, value object) | Business rules & domain types | FastAPI, SQLAlchemy, HTTP, env access |
+| **Outbound adapter** (pg/memory/orm repository) | Persistence & external I/O | HTTP status decisions, UI concerns |
+| **Dependencies / composition root** | Wire ports to adapters (DI factories only) | Business logic |
+
+**Fractal naming:** mirror the same capability name across layers with a consistent prefix + suffix (e.g. `crew_walter_roaster_schema`, `crew_walter_roaster_dto`, `crew_walter_roaster_interactor`).
+
+Entry points (`main.py`) remain thin: route registration and DI only.
+
+## 4. Path & Import Conventions
+
+When describing backend locations in plans, comments, PR text, and agent responses, use these **canonical path prefixes**:
+
+- **App/domain modules** — write paths as `com.auditor/{domain}/...`
+  - Omit the `apps/` segment even though the physical path is `com.auditor/apps/{domain}/...`
+  - Example: physical `com.auditor/apps/titanic/app/use_cases/...` → document as `com.auditor/titanic/app/use_cases/...`
+- **Core/shared modules** — prefix with `com.auditor.core.`
+  - Example: physical `com.auditor/core/matrix/grid_oracle_database_manager.py` → `com.auditor.core.matrix.grid_oracle_database_manager`
+
+**Imports in Python code** remain as the repository actually uses them today (e.g. `titanic.*`, `matrix.*`). The convention above is for **documentation and harness communication**, not forced import rewrites unless explicitly requested.
+
+## 5. Non-Negotiable Engineering Constraints
+
+- Minimal diff: change only what the request requires.
+- No secrets in code or commits.
+- External/slow I/O: cache-first return, refresh in background when applicable.
+- Existing naming and fractal layout in the repo take precedence over generic templates.
+
+**Trade-off:** favor carefulness over speed; relax only for trivial, unambiguous tasks.
 
 ---
 
-## 1. 구현 전 사고 (Think Before Coding)
+# LLM Coding Behavior (Karpathy Guidelines)
 
-**가정하지 말 것. 혼란을 숨기지 말 것. 트레이드오프를 드러낼 것.**
+**Agent behavior** guidelines to reduce common LLM coding mistakes. When these conflict with the top-level architecture and PKS rules above, follow the top-level rules.
 
-구현에 들어가기 전에:
+## 1. Think Before Coding
 
-- 가정은 명시한다. 불확실하면 질문한다.
-- 해석이 여러 가지면, 조용히 하나를 고르지 말고 대안을 제시한다.
-- 더 단순한 방법이 있으면 말한다. 타당하면 사용자 요청에도 반박한다.
-- 불명확하면 멈춘다. 무엇이 헷갈리는지 짚고 질문한다.
+**Do not assume. Do not hide confusion. Surface trade-offs.**
 
----
+Before implementing:
 
-## 2. 단순성 우선 (Simplicity First)
+- State assumptions explicitly. Ask when uncertain.
+- When multiple interpretations exist, present alternatives — do not silently pick one.
+- Suggest simpler approaches when they exist. Push back on the user's request when warranted.
+- Stop when unclear. Name what is confusing and ask.
 
-**문제를 푸는 데 필요한 최소한의 코드만. 추측성 코드는 없다.**
+## 2. Simplicity First
 
-- 요청 범위를 넘는 기능은 넣지 않는다.
-- 일회성 코드를 위한 추상화는 만들지 않는다.
-- 요청되지 않은 “유연성”이나 “설정 가능성”은 넣지 않는다.
-- 현실적으로 일어날 수 없는 시나리오를 위한 예외 처리는 하지 않는다.
-- 200줄로 쓸 일을 50줄로 줄일 수 있으면 다시 쓴다.
+**Only the minimum code needed to solve the problem. No speculative code.**
 
-스스로에게 묻는다: “시니어 엔지니어가 보기에 이건 과하게 복잡하다고 할까?” 그렇다면 단순화한다.
+- Do not add features beyond the requested scope.
+- Do not build abstractions for one-off code.
+- Do not add unrequested "flexibility" or configurability.
+- Do not handle edge cases that are impossible or extremely unlikely.
+- If you can write it in 50 lines instead of 200, rewrite it.
 
----
+Ask yourself: "Would a senior engineer call this over-engineered?" If yes, simplify.
 
-## 3. 정밀한 수정 (Surgical Changes)
+## 3. Surgical Changes
 
-**꼭 필요한 곳만 건드린다. 정리는 자기가 만든 잔여물만 한다.**
+**Touch only what is necessary. Clean up only what your change leaves behind.**
 
-기존 코드를 고칠 때:
+When editing existing code:
 
-- 인접한 코드·주석·포맷을 “개선”하려 들지 않는다.
-- 망가지지 않은 부분은 리팩터링하지 않는다.
-- 스타일이 마음에 안 들어도 기존 스타일에 맞춘다.
-- 작업과 무관한 데드 코드를 발견하면 **언급만** 하고, 임의로 지우지 않는다.
+- Do not "improve" adjacent code, comments, or formatting.
+- Do not refactor code that is not broken.
+- Match existing style even if you dislike it.
+- If you find dead code unrelated to the task, **mention it only** — do not delete it without being asked.
 
-내 변경으로 쓰이지 않게 된 것이 생기면:
+If your change makes something unused:
 
-- **내 변경** 때문에 불필요해진 import·변수·함수는 제거한다.
-- 원래부터 있던 데드 코드는 요청이 없으면 그대로 둔다.
+- Remove imports, variables, and functions made obsolete **by your change**.
+- Leave pre-existing dead code in place unless explicitly requested to remove it.
 
-**검증:** 바뀐 모든 줄이 사용자 요청과 직접적으로 연결되어야 한다.
+## 4. Goal-Driven Execution
 
----
+Turn vague requests into verifiable goals:
 
-## 4. 목표 중심 실행 (Goal-Driven Execution)
+- "Add validation" → "Write tests for invalid input and make them pass"
+- "Fix bug" → "Write a reproduction test and make it pass"
+- "Refactor X" → "Confirm tests pass before and after"
 
-**성공 기준을 정의한다. 검증될 때까지 반복한다.**
-
-모호한 일을 검증 가능한 목표로 바꾼다:
-
-- “유효성 검사 추가” → “잘못된 입력에 대한 테스트를 쓰고, 통과시킨다”
-- “버그 수정” → “재현 테스트를 쓰고, 통과시킨다”
-- “X 리팩터링” → “전후로 테스트가 통과하는지 확인한다”
-
-여러 단계일 때는 짧은 계획을 밝힌다:
+For multi-step work, state a short plan:
 
 ```
-1. [단계] → 검증: [확인 사항]
-2. [단계] → 검증: [확인 사항]
-3. [단계] → 검증: [확인 사항]
+1. [step] → verify: [check]
+2. [step] → verify: [check]
+3. [step] → verify: [check]
 ```
 
-성공 기준이 분명해야 같은 루프를 돌며 독립적으로 진행할 수 있다. “일단 돌아가게” 같은 약한 기준은 끊임없는 재질의를 부른다.
+Weak success criteria like "make it work for now" invite endless back-and-forth.
 
 ---
 
-**이 지침이 먹히고 있다는 신호:** diff에 불필요한 변경이 줄고, 과한 복잡도로 인한 재작성이 줄며, **실수를 낸 뒤가 아니라 구현 전에** 명확히 질문하는 경우가 늘어난다.
-
+**Signals this is working:** unnecessary diff noise decreases, rewrites from over-complexity decrease, and **clear questions happen before implementation** — not after mistakes.

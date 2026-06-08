@@ -1,5 +1,5 @@
 {
-  "extraPaths": ["backend/core", "backend/apps"],
+  "extraPaths": ["com.auditor/core", "com.auditor/apps"],
   "pythonVersion": "3.13",
   "typeCheckingMode": "basic",
   "exclude": [".venv"]
