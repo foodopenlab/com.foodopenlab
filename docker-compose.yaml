@@ -1,0 +1,33 @@
+services:
+  # 백엔드 서비스 설정
+  backend:
+    build:
+      context: ./com.auditor
+      dockerfile: Dockerfile
+    container_name: fastapi_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./com.auditor:/app
+      - /app/__pycache__
+    env_file:
+      - ./com.auditor/.env
+
+  # 프론트엔드 서비스 설정
+  frontend:
+    build:
+      context: ./watcher.www
+      dockerfile: Dockerfile
+    container_name: nextjs_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./watcher.www:/app
+      - /app/.next
+      - /app/node_modules
+    env_file:
+      - ./watcher.www/.env.local
+    environment:
+      BACKEND_URL: http://backend:8000
+    depends_on:
+      - backend
