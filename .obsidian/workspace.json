@@ -11,14 +11,10 @@
             "id": "63d22ac3ea6316bf",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "CLAUDE.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "CLAUDE"
+              "title": "새 탭"
             }
           }
         ]
@@ -182,6 +178,14 @@
   },
   "active": "63d22ac3ea6316bf",
   "lastOpenFiles": [
+    "watcher.www/claude.md",
+    "com.auditor/claude.md",
+    "CLAUDE.md",
+    "claude.md",
+    "agents.md",
+    "com.auditor/com.auditor-g",
+    "plan.docs/titanic 구조.md",
+    "plan.docs/titanic 구조",
     "com.auditor/apps/titanic/adapter/outbound/pg/__pycache__/db_init.cpython-313.pyc.123476306848176",
     "com.auditor/apps/titanic/adapter/outbound/pg/__pycache__/db_init.cpython-313.pyc.139731925401648",
     "com.auditor/apps/titanic/domain/value_objects/__pycache__/crew_smith_captain_vo.cpython-313.pyc",
@@ -190,16 +194,12 @@
     "com.auditor/apps/titanic/domain/entities/__pycache__/crew_smith_captain_entity.cpython-313.pyc",
     "com.auditor/apps/titanic/domain/entities/__pycache__/crew_smith_captain_entity.cpython-313.pyc.139731926661680",
     "com.auditor/apps/titanic/app/ports/output/__pycache__/crew_smith_captain_repository.cpython-313.pyc.139731926137808",
-    "com.auditor/apps/titanic/adapter/outbound/orm/__pycache__/crew_smith_captain_orm.cpython-313.pyc",
-    "com.auditor/apps/titanic/adapter/outbound/orm/__pycache__/crew_smith_captain_orm.cpython-313.pyc.139731926138672",
-    "com.auditor/apps/titanic/adapter/outbound/pg/__pycache__/crew_smith_captain_pg_repository.cpython-313.pyc.139731926137952",
     "node_modules/dompurify/README.md",
     "node_modules/@types/dompurify/README.md",
     "node_modules/@types/trusted-types/README.md",
     "plan.docs/foodopenlab_antigravity_prompts_v4_4.md",
     "_harness/config.yaml.md",
     "무제.md",
-    "CLAUDE.md",
     "AGENTS.md",
     "watcher.www/public/placeholder-user.jpg",
     "watcher.www/public/placeholder-logo.svg",
