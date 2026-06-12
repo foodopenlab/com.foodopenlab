@@ -1,0 +1,37 @@
+{
+  "collapse-filter": false,
+  "search": "-path:node_modules (path:plan.docs OR file:CLAUDE OR file:.cursorrules OR file:README OR file:agents OR path:docs/)",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": true,
+  "showOrphans": false,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "path:com.auditor OR path:plan.docs/DevOps/Backend",
+      "color": {
+        "a": 1,
+        "rgb": 15896107
+      }
+    },
+    {
+      "query": "path:watcher.www OR path:plan.docs/DevOps/Frontend",
+      "color": {
+        "a": 1,
+        "rgb": 5139879
+      }
+    }
+  ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": -3,
+  "nodeSizeMultiplier": 1.88645833333333,
+  "lineSizeMultiplier": 2.0140625,
+  "collapse-forces": true,
+  "centerStrength": 0.518713248970312,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 1.4019828977760844,
+  "close": true
+}

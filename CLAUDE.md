@@ -1,6 +1,21 @@
-# Project Harness & Architecture (Top-Level Rules)
+# Project Harness & Architecture (Monorepo Root)
 
-These rules take precedence over all other guidance in this repository. Product-specific docs (`plan.docs/{project}/`) and stack rules (`plan.docs/DevOps/`) refine but do not override them.
+These rules take precedence over all other guidance in this repository. Cursor injection summary: [`.cursorrules`](.cursorrules).
+
+## Child specifications (scope routing)
+
+작업 범위에 맞는 **하위 `CLAUDE.md`를 반드시 함께 읽는다.**
+
+| Scope | File | When |
+|-------|------|------|
+| **Monorepo (this file)** | `CLAUDE.md` | 우선순위·PKS·LLM 행동 가이드 |
+| **Backend** | [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
+| **Frontend** | [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) | `watcher.www/` · Next.js · UI |
+| **App (sibling)** | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | 특정 백엔드 앱 (예: [`titanic/_docs/CLAUDE.md`](com.auditor/apps/titanic/_docs/CLAUDE.md)) |
+
+**우선순위:** **this file** + [`.cursorrules`](.cursorrules) > **child `CLAUDE.md`** > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+
+---
 
 ## 1. Harness Engineering (Karpathy)
 
@@ -11,51 +26,28 @@ These rules take precedence over all other guidance in this repository. Product-
 ## 2. PKS — Project Knowledge System (Wiki + LLM)
 
 - Implement and maintain **PKS (Project Knowledge System)** as the SSOT bridge between **wiki/docs** and **LLM agents**.
-- Before implementation, consult the relevant `plan.docs/` material (DevOps foundations, stack rules, product docs) — not only `.cursorrules` summaries.
+- Before implementation, consult the relevant `plan.docs/` material (DevOps foundations, stack rules, product docs) — not only harness summaries.
 - Docs precede code: when docs and code disagree, treat docs as authoritative unless the user explicitly requests a doc update.
 - After meaningful changes, update or propose updates to the wiki/docs when behavior, contracts, or env keys change.
 
 **PKS workflow (mandatory order):**
 
-1. Read top-level rules in `CLAUDE.md`
-2. Read `plan.docs/DevOps/FOUNDATIONS.md` + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
-3. Read product-specific docs under `plan.docs/{project}/` when applicable
-4. Plan with explicit success criteria
-5. Implement
-6. Verify (test, lint, build, or reproducible manual check)
+1. Read **this file** and [`.cursorrules`](.cursorrules)
+2. Read child spec for your scope ([`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) / [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) / `apps/{domain}/_docs/CLAUDE.md`)
+3. Read [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
+4. Read product-specific docs under `plan.docs/{project}/` when applicable
+5. Plan with explicit success criteria
+6. Implement
+7. Verify (test, lint, build, or reproducible manual check)
 
 ## 3. Architecture — SOLID + Hexagonal + Clean + DDD
 
-All backend feature work **must** comply with:
-
-- **SOLID** (especially DIP: depend on ports/abstractions, not concrete adapters)
-- **Hexagonal Architecture** (ports & adapters; inbound vs outbound separation)
-- **Clean Architecture** (dependency rule: outer layers depend inward; domain has no framework imports)
-- **DDD** (domain language in entities/value objects; application layer orchestrates use cases)
-
-| Layer | Responsibility | Must NOT |
-|-------|----------------|----------|
-| **Inbound adapter** (API router, schema) | HTTP validation, request/response mapping | SQL, ORM, external API details, business rules |
-| **Application** (use case / interactor, port interfaces) | Use-case orchestration, transaction boundaries | HTTP objects, direct DB driver usage |
-| **Domain** (entity, value object) | Business rules & domain types | FastAPI, SQLAlchemy, HTTP, env access |
-| **Outbound adapter** (pg/memory/orm repository) | Persistence & external I/O | HTTP status decisions, UI concerns |
-| **Dependencies / composition root** | Wire ports to adapters (DI factories only) | Business logic |
-
-**Fractal naming:** mirror the same capability name across layers with a consistent prefix + suffix (e.g. `crew_walter_roaster_schema`, `crew_walter_roaster_dto`, `crew_walter_roaster_interactor`).
-
-Entry points (`main.py`) remain thin: route registration and DI only.
+---> **이 절은 루트에 있던 백엔드 아키텍처 전체 명세입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Architecture 로 분리했습니다.  
+앱별 프랙탈 상세는 [`com.auditor/apps/{domain}/_docs/CLAUDE.md`](com.auditor/apps/titanic/_docs/CLAUDE.md) (예: titanic)를 따릅니다.
 
 ## 4. Path & Import Conventions
 
-When describing backend locations in plans, comments, PR text, and agent responses, use these **canonical path prefixes**:
-
-- **App/domain modules** — write paths as `com.auditor/{domain}/...`
-  - Omit the `apps/` segment even though the physical path is `com.auditor/apps/{domain}/...`
-  - Example: physical `com.auditor/apps/titanic/app/use_cases/...` → document as `com.auditor/titanic/app/use_cases/...`
-- **Core/shared modules** — prefix with `com.auditor.core.`
-  - Example: physical `com.auditor/core/matrix/grid_oracle_database_manager.py` → `com.auditor.core.matrix.grid_oracle_database_manager`
-
-**Imports in Python code** remain as the repository actually uses them today (e.g. `titanic.*`, `matrix.*`). The convention above is for **documentation and harness communication**, not forced import rewrites unless explicitly requested.
+---> **이 절은 루트에 있던 백엔드 경로 규칙입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Path & Import Conventions 로 분리했습니다.
 
 ## 5. Non-Negotiable Engineering Constraints
 
@@ -132,3 +124,16 @@ Weak success criteria like "make it work for now" invite endless back-and-forth.
 ---
 
 **Signals this is working:** unnecessary diff noise decreases, rewrites from over-complexity decrease, and **clear questions happen before implementation** — not after mistakes.
+
+---
+
+## Harness file map
+
+| File | Role |
+|------|------|
+| [`.cursorrules`](.cursorrules) | Cursor-injected summary (links to this tree) |
+| `CLAUDE.md` | Monorepo full spec (this file) |
+| [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) | Backend architecture & stack |
+| [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) | Frontend architecture & stack |
+| `com.auditor/apps/{domain}/_docs/CLAUDE.md` | Per-app backend spec (sibling apps) |
+| [`plan.docs/DevOps/`](plan.docs/DevOps/) | Wiki SSOT (detail) |

@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "e1b799421dac94ed",
+        "id": "caea6ac71066e9d9",
         "type": "tabs",
         "children": [
           {
-            "id": "63d22ac3ea6316bf",
+            "id": "b17aab04113bb659",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "새 탭"
+              "icon": "lucide-git-fork",
+              "title": "그래프 뷰"
             }
           }
         ]
@@ -176,24 +176,36 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "63d22ac3ea6316bf",
+  "active": "b17aab04113bb659",
   "lastOpenFiles": [
+    "com.auditor/apps/titanic/tests/domain/__pycache__/__init__.cpython-313.pyc",
+    "com.auditor/apps/titanic/tests/domain/__pycache__",
+    "com.auditor/apps/titanic/tests/adapter/outbound/__pycache__/__init__.cpython-313.pyc",
+    "com.auditor/apps/titanic/tests/adapter/outbound/__pycache__",
+    "com.auditor/apps/titanic/tests/integration/__pycache__/test_korean_ai_ollama.cpython-313-pytest-9.0.3.pyc",
+    "com.auditor/apps/titanic/tests/integration/__pycache__/__init__.cpython-313.pyc",
+    "com.auditor/apps/titanic/tests/integration/__pycache__/test_korean_ai_ollama.cpython-313-pytest-8.4.2.pyc",
+    "com.auditor/apps/titanic/tests/integration/__pycache__",
+    "com.auditor/apps/titanic/tests/run_korean_ai_test.ps1",
+    "com.auditor/pytest.ini",
+    "com.auditor/apps/titanic/tests/integration/test_korean_ai_ollama.py",
+    "watcher.www/_claude/CLAUDE.md",
+    "watcher.www/README.md",
+    "com.auditor/README.md",
+    "com.auditor/apps/titanic/_docs/CLAUDE.md",
+    "watcher.www/docs/VERCEL_DEPLOY.md",
+    "com.auditor/_claude/CLAUDE.md",
+    "CLAUDE.md",
+    "무제 1.canvas",
+    "무제.canvas",
+    "com.auditor/CLAUDE.md",
+    "plan.docs/DevOps/FOUNDATIONS.md",
+    "watcher.www/CLAUDE.md",
     "watcher.www/claude.md",
     "com.auditor/claude.md",
-    "CLAUDE.md",
     "claude.md",
     "agents.md",
-    "com.auditor/com.auditor-g",
     "plan.docs/titanic 구조.md",
-    "plan.docs/titanic 구조",
-    "com.auditor/apps/titanic/adapter/outbound/pg/__pycache__/db_init.cpython-313.pyc.123476306848176",
-    "com.auditor/apps/titanic/adapter/outbound/pg/__pycache__/db_init.cpython-313.pyc.139731925401648",
-    "com.auditor/apps/titanic/domain/value_objects/__pycache__/crew_smith_captain_vo.cpython-313.pyc",
-    "com.auditor/apps/titanic/domain/value_objects/__pycache__/crew_smith_captain_vo.cpython-313.pyc.139731926136080",
-    "com.auditor/apps/titanic/app/use_cases/__pycache__/crew_smith_captain_interactor.cpython-313.pyc.139731926138672",
-    "com.auditor/apps/titanic/domain/entities/__pycache__/crew_smith_captain_entity.cpython-313.pyc",
-    "com.auditor/apps/titanic/domain/entities/__pycache__/crew_smith_captain_entity.cpython-313.pyc.139731926661680",
-    "com.auditor/apps/titanic/app/ports/output/__pycache__/crew_smith_captain_repository.cpython-313.pyc.139731926137808",
     "node_modules/dompurify/README.md",
     "node_modules/@types/dompurify/README.md",
     "node_modules/@types/trusted-types/README.md",
@@ -209,7 +221,6 @@
     "watcher.www/public/placeholder.jpg",
     "watcher.www/public/icon-light-32x32.png",
     "watcher.www/public/icon-dark-32x32.png",
-    "watcher.www/public/icon.svg",
-    "watcher.www/README.md"
+    "watcher.www/public/icon.svg"
   ]
 }

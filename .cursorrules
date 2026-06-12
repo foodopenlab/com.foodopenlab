@@ -1,6 +1,21 @@
-# Cursor Harness — com.foodopenlab (Monorepo)
+# Cursor Harness — com.foodopenlab (Monorepo Root)
 
-Top-level rules take precedence over all other guidance. Product-specific docs (`plan.docs/{project}/`) and stack rules (`plan.docs/DevOps/`) refine but do not override them. Full specification: `CLAUDE.md`.
+Top-level rules take precedence over all other guidance. Full specification: [`CLAUDE.md`](CLAUDE.md).
+
+## Child harness (scope routing)
+
+작업 범위에 맞는 **하위 `.cursorrules`를 반드시 함께 읽는다.**
+
+| Scope | File | When |
+|-------|------|------|
+| **Monorepo (this file)** | `.cursorrules` | 우선순위·PKS·공통 에이전트 워크플로 |
+| **Backend** | [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
+| **Frontend** | [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) | `watcher.www/` · Next.js · UI |
+| **App (sibling)** | `com.auditor/apps/{domain}/_docs/.cursorrules` | 특정 백엔드 앱 (예: [`titanic/_docs/.cursorrules`](com.auditor/apps/titanic/_docs/.cursorrules)) |
+
+**우선순위:** `CLAUDE.md` + **this file** > **child `.cursorrules`** (backend / frontend / app) > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+
+---
 
 ## 1. Harness Engineering (Karpathy)
 
@@ -11,43 +26,28 @@ Top-level rules take precedence over all other guidance. Product-specific docs (
 ## 2. PKS — Project Knowledge System (Wiki + LLM)
 
 - **PKS** is the SSOT bridge between **wiki/docs** and **LLM agents**.
-- Before implementation, consult relevant `plan.docs/` material — not only this file.
+- Before implementation, consult relevant `plan.docs/` material — not only harness summaries.
 - Docs precede code: when docs and code disagree, treat docs as authoritative unless the user explicitly requests a doc update.
 - After meaningful changes, update or propose wiki/docs updates when behavior, contracts, or env keys change.
 
 **PKS workflow (mandatory order):**
 
-1. Read top-level rules in `CLAUDE.md` and this file
-2. Read `plan.docs/DevOps/FOUNDATIONS.md` + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
-3. Read product-specific docs under `plan.docs/{project}/` when applicable
-4. Plan with explicit success criteria
-5. Implement
-6. Verify (test, lint, build, or reproducible manual check)
+1. Read [`CLAUDE.md`](CLAUDE.md) and **this file**
+2. Read child harness for your scope ([`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) / [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) / `apps/{domain}/_docs/.cursorrules`)
+3. Read [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
+4. Read product-specific docs under `plan.docs/{project}/` when applicable
+5. Plan with explicit success criteria
+6. Implement
+7. Verify (test, lint, build, or reproducible manual check)
 
 ## 3. Architecture — SOLID + Hexagonal + Clean + DDD
 
-All backend feature work **must** comply with SOLID (especially DIP), Hexagonal Architecture, Clean Architecture, and DDD.
-
-| Layer | Responsibility | Must NOT |
-|-------|----------------|----------|
-| **Inbound adapter** (router, schema) | HTTP validation, request/response mapping | SQL, ORM, external API details, business rules |
-| **Application** (use case, port interfaces) | Use-case orchestration, transaction boundaries | HTTP objects, direct DB driver usage |
-| **Domain** (entity, value object) | Business rules & domain types | FastAPI, SQLAlchemy, HTTP, env access |
-| **Outbound adapter** (pg/memory/orm repository) | Persistence & external I/O | HTTP status decisions, UI concerns |
-| **Dependencies / composition root** | Wire ports to adapters (DI factories only) | Business logic |
-
-**Fractal naming:** mirror the same capability across layers with consistent prefix + suffix (e.g. `crew_walter_roaster_schema`, `crew_walter_roaster_dto`, `crew_walter_roaster_interactor`).
-
-Entry points (`main.py`) remain thin: route registration and DI only.
+---> **이 절은 루트에 있던 백엔드 아키텍처 규칙입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Architecture (요약: [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules)).  
+앱별 프랙탈: [`com.auditor/apps/{domain}/_docs/CLAUDE.md`](com.auditor/apps/titanic/_docs/CLAUDE.md) (예: titanic).
 
 ## 4. Path & Import Conventions
 
-When describing backend locations in plans, comments, PR text, and agent responses:
-
-- **App/domain modules** — `com.auditor/{domain}/...` (omit `apps/`; physical path is `com.auditor/apps/{domain}/...`)
-- **Core/shared modules** — `com.auditor.core.*` (e.g. `com.auditor.core.matrix.grid_oracle_database_manager`)
-
-Python imports stay as the repo uses them today (`titanic.*`, `matrix.*`). The convention above is for documentation and harness communication only.
+---> **이 절은 루트에 있던 백엔드 경로 규칙입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Path & Import Conventions (요약: [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules)).
 
 ## 5. Non-Negotiable Engineering Constraints
 
@@ -62,43 +62,38 @@ Python imports stay as the repo uses them today (`titanic.*`, `matrix.*`). The c
 
 # Cursor Agent Workflow (Operational)
 
-For full Karpathy agent-behavior guidelines, see **`CLAUDE.md` § LLM Coding Behavior**.
+For full Karpathy agent-behavior guidelines, see [`CLAUDE.md`](CLAUDE.md) § LLM Coding Behavior.
 
 ## Harness file roles
 
 | File | Role |
 |------|------|
-| `.cursorrules` | Cursor-injected harness rules (this file) |
-| `CLAUDE.md` | Full harness specification + Karpathy agent-behavior guidelines |
-| `plan.docs/DevOps/FOUNDATIONS.md` | Cross-stack foundations |
+| `.cursorrules` | Monorepo root — priority & PKS (this file) |
+| [`CLAUDE.md`](CLAUDE.md) | Monorepo full spec + Karpathy agent-behavior |
+| [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) | Backend full spec |
+| [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) | Frontend full spec |
+| `com.auditor/apps/{domain}/_docs/CLAUDE.md` | Per-app backend full spec (sibling apps) |
+| [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) | Backend harness (summary) |
+| [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) | Frontend harness (summary) |
+| `com.auditor/apps/{domain}/_docs/.cursorrules` | Per-app backend harness (summary) |
+| [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) | Cross-stack foundations |
 | `plan.docs/DevOps/Backend/BACKEND_RULES.md` | Backend coding rules SSOT |
-| `plan.docs/DevOps/Frontend/REACT_RULES.md` | Frontend coding rules SSOT |
-| `plan.docs/DevOps/Projects/README.md` | Product docs index |
+| [`plan.docs/DevOps/Frontend/REACT_RULES.md`](plan.docs/DevOps/Frontend/REACT_RULES.md) | Frontend coding rules SSOT |
+| [`plan.docs/DevOps/Projects/README.md`](plan.docs/DevOps/Projects/README.md) | Product docs index |
 | `plan.docs/{project}/` | Product-specific specs (e.g. `plan.docs/HACCP 개발/`) |
 
 Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.auditor/` or `watcher.www/`.
 
-## Priority
+## Stack summaries
 
-**Top-level rules (`CLAUDE.md` + this file §1–5)** > **project/feature docs** > **DevOps stack RULES** > **FOUNDATIONS** > operational notes below.
+---> **백엔드·프론트 스택 상세는 각각 분리했습니다.**
 
-## Documentation paths (repo root)
+| Stack | Harness |
+|-------|---------|
+| Backend | [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) |
+| Frontend | [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) |
 
-| Path | Purpose |
-|------|---------|
-| `plan.docs/DevOps/README.md` | DevOps index |
-| `plan.docs/DevOps/FOUNDATIONS.md` | Cross-stack principles |
-| `plan.docs/DevOps/Backend/BACKEND_RULES.md` | Backend work |
-| `plan.docs/DevOps/Frontend/REACT_RULES.md` | Frontend work |
-| `plan.docs/DevOps/Projects/README.md` | Product docs locations |
-| `plan.docs/HACCP 개발/*.md` | HACCP Monitor STEP docs (when applicable) |
-
-## Stack summaries (details in DevOps MD)
-
-- **Backend:** inbound adapter → application (use case) → outbound adapter · `main` is routes + DI only · env keys per project docs / `.env.example`
-- **External API:** return cache immediately; refresh in background
-- **Frontend:** avoid `useState` sprawl · single state object · `FormData` submission
-- **Scope:** no unrelated diffs · always state a verification method
+공통: minimal diff · verification method 명시 · env/비밀 커밋 금지.
 
 ## Operating Cursor with this harness
 
@@ -112,12 +107,16 @@ Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.a
 ## User prompt template
 
 ```text
+@.cursorrules @com.auditor/_claude/.cursorrules   # backend work
+@.cursorrules @watcher.www/_claude/.cursorrules   # frontend work
+@com.auditor/apps/titanic/_docs/.cursorrules   # titanic app (example)
+
 @plan.docs/DevOps/FOUNDATIONS.md @plan.docs/DevOps/[Backend|Frontend]/..._RULES.md
 
-Acknowledge DevOps rules, then [task].
+Acknowledge harness + DevOps rules, then [task].
 Add @plan.docs/{project}/ when product specs are required.
 ```
 
 ## Acknowledgment (one line)
 
-`plan.docs acknowledged: FOUNDATIONS + [Backend|Frontend]_RULES (+ project MD)`
+`plan.docs acknowledged: FOUNDATIONS + [Backend|Frontend]_RULES (+ project MD) · harness: root + [backend|frontend|app] .cursorrules`
