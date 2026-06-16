@@ -1,6 +1,6 @@
 # Project Harness & Architecture (Monorepo Root)
 
-These rules take precedence over all other guidance in this repository. Cursor injection summary: [`.cursorrules`](.cursorrules).
+These rules take precedence over all other guidance in this repository. Cursor injection summary: [`cursor-rules.md`](cursor-rules.md).
 
 ## Child specifications (scope routing)
 
@@ -9,11 +9,11 @@ These rules take precedence over all other guidance in this repository. Cursor i
 | Scope | File | When |
 |-------|------|------|
 | **Monorepo (this file)** | `CLAUDE.md` | 우선순위·PKS·LLM 행동 가이드 |
-| **Backend** | [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
-| **Frontend** | [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) | `watcher.www/` · Next.js · UI |
-| **App (sibling)** | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | 특정 백엔드 앱 (예: [`titanic/_docs/CLAUDE.md`](com.auditor/apps/titanic/_docs/CLAUDE.md)) |
+| **Backend** | [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
+| **Frontend** | [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) | `watcher.www/` · Next.js · UI |
+| **App (sibling)** | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | 특정 백엔드 앱 — [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § App-level specs 경유 (예: `titanic/_docs/CLAUDE.md`) |
 
-**우선순위:** **this file** + [`.cursorrules`](.cursorrules) > **child `CLAUDE.md`** > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+**우선순위:** **this file** + [`cursor-rules.md`](cursor-rules.md) > **child `CLAUDE.md`** > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
 
 ---
 
@@ -32,8 +32,8 @@ These rules take precedence over all other guidance in this repository. Cursor i
 
 **PKS workflow (mandatory order):**
 
-1. Read **this file** and [`.cursorrules`](.cursorrules)
-2. Read child spec for your scope ([`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) / [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) / `apps/{domain}/_docs/CLAUDE.md`)
+1. Read **this file** and [`cursor-rules.md`](cursor-rules.md)
+2. Read child spec for your scope ([`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) / [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) / `apps/{domain}/_docs/CLAUDE.md`)
 3. Read [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
 4. Read product-specific docs under `plan.docs/{project}/` when applicable
 5. Plan with explicit success criteria
@@ -42,12 +42,12 @@ These rules take precedence over all other guidance in this repository. Cursor i
 
 ## 3. Architecture — SOLID + Hexagonal + Clean + DDD
 
----> **이 절은 루트에 있던 백엔드 아키텍처 전체 명세입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Architecture 로 분리했습니다.  
-앱별 프랙탈 상세는 [`com.auditor/apps/{domain}/_docs/CLAUDE.md`](com.auditor/apps/titanic/_docs/CLAUDE.md) (예: titanic)를 따릅니다.
+---> **이 절은 루트에 있던 백엔드 아키텍처 전체 명세입니다.** [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § Architecture 로 분리했습니다.  
+앱별 프랙탈 상세는 [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § App-level specs → `apps/{domain}/_docs/CLAUDE.md` (예: titanic)를 따릅니다.
 
 ## 4. Path & Import Conventions
 
----> **이 절은 루트에 있던 백엔드 경로 규칙입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Path & Import Conventions 로 분리했습니다.
+---> **이 절은 루트에 있던 백엔드 경로 규칙입니다.** [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § Path & Import Conventions 로 분리했습니다.
 
 ## 5. Non-Negotiable Engineering Constraints
 
@@ -131,9 +131,9 @@ Weak success criteria like "make it work for now" invite endless back-and-forth.
 
 | File | Role |
 |------|------|
-| [`.cursorrules`](.cursorrules) | Cursor-injected summary (links to this tree) |
+| [`cursor-rules.md`](cursor-rules.md) | Cursor-injected summary (links to this tree) |
 | `CLAUDE.md` | Monorepo full spec (this file) |
-| [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) | Backend architecture & stack |
-| [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) | Frontend architecture & stack |
+| [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) | Backend architecture & stack |
+| [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) | Frontend architecture & stack |
 | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | Per-app backend spec (sibling apps) |
 | [`plan.docs/DevOps/`](plan.docs/DevOps/) | Wiki SSOT (detail) |

@@ -4,16 +4,16 @@ Top-level rules take precedence over all other guidance. Full specification: [`C
 
 ## Child harness (scope routing)
 
-작업 범위에 맞는 **하위 `.cursorrules`를 반드시 함께 읽는다.**
+작업 범위에 맞는 **하위 `cursor-rules.md`를 반드시 함께 읽는다.**
 
 | Scope | File | When |
 |-------|------|------|
-| **Monorepo (this file)** | `.cursorrules` | 우선순위·PKS·공통 에이전트 워크플로 |
-| **Backend** | [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
-| **Frontend** | [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) | `watcher.www/` · Next.js · UI |
-| **App (sibling)** | `com.auditor/apps/{domain}/_docs/.cursorrules` | 특정 백엔드 앱 (예: [`titanic/_docs/.cursorrules`](com.auditor/apps/titanic/_docs/.cursorrules)) |
+| **Monorepo (this file)** | `cursor-rules.md` | 우선순위·PKS·공통 에이전트 워크플로 |
+| **Backend** | [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
+| **Frontend** | [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) | `watcher.www/` · Next.js · UI |
+| **App (sibling)** | `com.auditor/apps/{domain}/_docs/cursor-rules.md` | 특정 백엔드 앱 — [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) 경유 (예: `titanic/_docs/cursor-rules.md`) |
 
-**우선순위:** `CLAUDE.md` + **this file** > **child `.cursorrules`** (backend / frontend / app) > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+**우선순위:** `CLAUDE.md` + **this file** > **child `cursor-rules.md`** (backend / frontend / app) > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
 
 ---
 
@@ -33,7 +33,7 @@ Top-level rules take precedence over all other guidance. Full specification: [`C
 **PKS workflow (mandatory order):**
 
 1. Read [`CLAUDE.md`](CLAUDE.md) and **this file**
-2. Read child harness for your scope ([`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) / [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) / `apps/{domain}/_docs/.cursorrules`)
+2. Read child harness for your scope ([`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) / [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) / `apps/{domain}/_docs/cursor-rules.md`)
 3. Read [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
 4. Read product-specific docs under `plan.docs/{project}/` when applicable
 5. Plan with explicit success criteria
@@ -42,12 +42,12 @@ Top-level rules take precedence over all other guidance. Full specification: [`C
 
 ## 3. Architecture — SOLID + Hexagonal + Clean + DDD
 
----> **이 절은 루트에 있던 백엔드 아키텍처 규칙입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Architecture (요약: [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules)).  
-앱별 프랙탈: [`com.auditor/apps/{domain}/_docs/CLAUDE.md`](com.auditor/apps/titanic/_docs/CLAUDE.md) (예: titanic).
+---> **이 절은 루트에 있던 백엔드 아키텍처 규칙입니다.** [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § Architecture (요약: [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md)).  
+앱별 프랙탈: [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § App-level specs → `apps/{domain}/_docs/CLAUDE.md` (예: titanic).
 
 ## 4. Path & Import Conventions
 
----> **이 절은 루트에 있던 백엔드 경로 규칙입니다.** [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) § Path & Import Conventions (요약: [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules)).
+---> **이 절은 루트에 있던 백엔드 경로 규칙입니다.** [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § Path & Import Conventions (요약: [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md)).
 
 ## 5. Non-Negotiable Engineering Constraints
 
@@ -68,14 +68,14 @@ For full Karpathy agent-behavior guidelines, see [`CLAUDE.md`](CLAUDE.md) § LLM
 
 | File | Role |
 |------|------|
-| `.cursorrules` | Monorepo root — priority & PKS (this file) |
+| `cursor-rules.md` | Monorepo root — priority & PKS (this file) |
 | [`CLAUDE.md`](CLAUDE.md) | Monorepo full spec + Karpathy agent-behavior |
-| [`com.auditor/_claude/CLAUDE.md`](com.auditor/_claude/CLAUDE.md) | Backend full spec |
-| [`watcher.www/_claude/CLAUDE.md`](watcher.www/_claude/CLAUDE.md) | Frontend full spec |
+| [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) | Backend full spec |
+| [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) | Frontend full spec |
 | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | Per-app backend full spec (sibling apps) |
-| [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) | Backend harness (summary) |
-| [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) | Frontend harness (summary) |
-| `com.auditor/apps/{domain}/_docs/.cursorrules` | Per-app backend harness (summary) |
+| [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) | Backend harness (summary) |
+| [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) | Frontend harness (summary) |
+| `com.auditor/apps/{domain}/_docs/cursor-rules.md` | Per-app backend harness (summary) |
 | [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) | Cross-stack foundations |
 | `plan.docs/DevOps/Backend/BACKEND_RULES.md` | Backend coding rules SSOT |
 | [`plan.docs/DevOps/Frontend/REACT_RULES.md`](plan.docs/DevOps/Frontend/REACT_RULES.md) | Frontend coding rules SSOT |
@@ -90,8 +90,8 @@ Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.a
 
 | Stack | Harness |
 |-------|---------|
-| Backend | [`com.auditor/_claude/.cursorrules`](com.auditor/_claude/.cursorrules) |
-| Frontend | [`watcher.www/_claude/.cursorrules`](watcher.www/_claude/.cursorrules) |
+| Backend | [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) |
+| Frontend | [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) |
 
 공통: minimal diff · verification method 명시 · env/비밀 커밋 금지.
 
@@ -107,9 +107,9 @@ Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.a
 ## User prompt template
 
 ```text
-@.cursorrules @com.auditor/_claude/.cursorrules   # backend work
-@.cursorrules @watcher.www/_claude/.cursorrules   # frontend work
-@com.auditor/apps/titanic/_docs/.cursorrules   # titanic app (example)
+@cursor-rules.md @com.auditor/cursor-rules.md   # backend work
+@cursor-rules.md @watcher.www/cursor-rules.md   # frontend work
+@com.auditor/apps/titanic/_docs/cursor-rules.md   # titanic app (example)
 
 @plan.docs/DevOps/FOUNDATIONS.md @plan.docs/DevOps/[Backend|Frontend]/..._RULES.md
 
@@ -119,4 +119,4 @@ Add @plan.docs/{project}/ when product specs are required.
 
 ## Acknowledgment (one line)
 
-`plan.docs acknowledged: FOUNDATIONS + [Backend|Frontend]_RULES (+ project MD) · harness: root + [backend|frontend|app] .cursorrules`
+`plan.docs acknowledged: FOUNDATIONS + [Backend|Frontend]_RULES (+ project MD) · harness: root + [backend|frontend|app] cursor-rules.md`

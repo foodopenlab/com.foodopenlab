@@ -1,6 +1,6 @@
 {
   "collapse-filter": false,
-  "search": "-path:node_modules (path:plan.docs OR file:CLAUDE OR file:.cursorrules OR file:README OR file:agents OR path:docs/)",
+  "search": "-path:node_modules (path:plan.docs OR file:CLAUDE OR file:cursor-rules OR file:README OR file:agents OR path:docs/)",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
@@ -32,6 +32,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 1.4019828977760844,
+  "scale": 0.7132754626224321,
   "close": true
 }
