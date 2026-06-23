@@ -4,6 +4,6 @@
 [submodule "watcher.www"]
 	path = watcher.www
 	url = https://github.com/foodopenlab/com.foodopenlab.www.git
-[submodule "plan.docs"]
-	path = plan.docs
+[submodule "_docs"]
+	path = _docs
 	url = https://github.com/foodopenlab/com.foodopenlab.docs.git
