@@ -11,9 +11,12 @@ Top-level rules take precedence over all other guidance. Full specification: [`C
 | **Monorepo (this file)** | `cursor-rules.md` | 우선순위·PKS·공통 에이전트 워크플로 |
 | **Backend** | [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
 | **Frontend** | [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) | `watcher.www/` · Next.js · UI |
+| **Flutter** | [`flutter/cursor-rules.md`](flutter/cursor-rules.md) | `flutter/` · Dart · 모바일 |
 | **App (sibling)** | `com.auditor/apps/{domain}/_docs/cursor-rules.md` | 특정 백엔드 앱 — [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) 경유 (예: `titanic/_docs/cursor-rules.md`) |
 
-**우선순위:** `CLAUDE.md` + **this file** > **child `cursor-rules.md`** (backend / frontend / app) > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+**우선순위:** `CLAUDE.md` + **this file** > **child `cursor-rules.md`** (backend / frontend / flutter / app) > `_docs/{project}/` > `_docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+
+**문서 배치:** [`_docs/DOC_PLACEMENT.md`](_docs/DOC_PLACEMENT.md) — 공통 MD → `_docs/` · Backend → `com.auditor/_docs/` · Frontend → `watcher.www/_docs/` · Flutter → `flutter/_docs/` · 루트 harness = 공통만.
 
 ---
 
@@ -26,16 +29,16 @@ Top-level rules take precedence over all other guidance. Full specification: [`C
 ## 2. PKS — Project Knowledge System (Wiki + LLM)
 
 - **PKS** is the SSOT bridge between **wiki/docs** and **LLM agents**.
-- Before implementation, consult relevant `plan.docs/` material — not only harness summaries.
+- Before implementation, consult relevant `_docs/` material — not only harness summaries.
 - Docs precede code: when docs and code disagree, treat docs as authoritative unless the user explicitly requests a doc update.
 - After meaningful changes, update or propose wiki/docs updates when behavior, contracts, or env keys change.
 
 **PKS workflow (mandatory order):**
 
 1. Read [`CLAUDE.md`](CLAUDE.md) and **this file**
-2. Read child harness for your scope ([`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) / [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) / `apps/{domain}/_docs/cursor-rules.md`)
-3. Read [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
-4. Read product-specific docs under `plan.docs/{project}/` when applicable
+2. Read child harness for your scope ([`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) / [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) / [`flutter/cursor-rules.md`](flutter/cursor-rules.md) / `apps/{domain}/_docs/cursor-rules.md`)
+3. Read [`_docs/DevOps/FOUNDATIONS.md`](_docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
+4. Read product-specific docs under `_docs/{project}/` when applicable
 5. Plan with explicit success criteria
 6. Implement
 7. Verify (test, lint, build, or reproducible manual check)
@@ -68,21 +71,29 @@ For full Karpathy agent-behavior guidelines, see [`CLAUDE.md`](CLAUDE.md) § LLM
 
 | File | Role |
 |------|------|
-| `cursor-rules.md` | Monorepo root — priority & PKS (this file) |
+| `cursor-rules.md` | Monorepo root — priority & PKS (this file) — **공통만** |
 | [`CLAUDE.md`](CLAUDE.md) | Monorepo full spec + Karpathy agent-behavior |
+| [`_docs/DOC_PLACEMENT.md`](_docs/DOC_PLACEMENT.md) | 문서 배치 규칙 SSOT |
+| [`_docs/`](_docs/) | 위키 · DevOps · 제품 (공통 MD) |
 | [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) | Backend full spec |
+| [`com.auditor/_docs/`](com.auditor/_docs/) | Backend PKS (app, db, auth, entity, scaffold, mfds-erd) |
 | [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) | Frontend full spec |
+| [`watcher.www/_docs/`](watcher.www/_docs/) | Frontend PKS (REACT_RULES, README) |
+| [`flutter/CLAUDE.md`](flutter/CLAUDE.md) | Flutter full spec |
+| [`flutter/_docs/`](flutter/_docs/) | Flutter harness |
 | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | Per-app backend full spec (sibling apps) |
 | [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) | Backend harness (summary) |
 | [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) | Frontend harness (summary) |
+| [`flutter/cursor-rules.md`](flutter/cursor-rules.md) | Flutter harness (summary) |
 | `com.auditor/apps/{domain}/_docs/cursor-rules.md` | Per-app backend harness (summary) |
-| [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) | Cross-stack foundations |
-| `plan.docs/DevOps/Backend/BACKEND_RULES.md` | Backend coding rules SSOT |
-| [`plan.docs/DevOps/Frontend/REACT_RULES.md`](plan.docs/DevOps/Frontend/REACT_RULES.md) | Frontend coding rules SSOT |
-| [`plan.docs/DevOps/Projects/README.md`](plan.docs/DevOps/Projects/README.md) | Product docs index |
-| `plan.docs/{project}/` | Product-specific specs (e.g. `plan.docs/HACCP 개발/`) |
+| [`_docs/DevOps/FOUNDATIONS.md`](_docs/DevOps/FOUNDATIONS.md) | Cross-stack foundations |
+| `_docs/DevOps/Backend/BACKEND_RULES.md` | Backend coding rules SSOT |
+| [`_docs/DevOps/Frontend/REACT_RULES.md`](_docs/DevOps/Frontend/REACT_RULES.md) | Frontend coding rules SSOT |
+| [`_docs/DevOps/Projects/README.md`](_docs/DevOps/Projects/README.md) | Product docs index |
+| `_docs/{project}/` | Product-specific specs (e.g. `_docs/HACCP 개발/`) |
+| [`.obsidian/`](.obsidian/) | Obsidian vault config at **monorepo root** (moved from `_docs/.obsidian/`); PKS notes live under `_docs/` |
 
-Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.auditor/` or `watcher.www/`.
+Submodule-only clone: `_docs` may live at `../_docs/` relative to `com.auditor/` or `watcher.www/`.
 
 ## Stack summaries
 
@@ -92,6 +103,7 @@ Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.a
 |-------|---------|
 | Backend | [`com.auditor/cursor-rules.md`](com.auditor/cursor-rules.md) |
 | Frontend | [`watcher.www/cursor-rules.md`](watcher.www/cursor-rules.md) |
+| Flutter | [`flutter/cursor-rules.md`](flutter/cursor-rules.md) |
 
 공통: minimal diff · verification method 명시 · env/비밀 커밋 금지.
 
@@ -109,14 +121,16 @@ Submodule-only clone: `plan.docs` may live at `../plan.docs/` relative to `com.a
 ```text
 @cursor-rules.md @com.auditor/cursor-rules.md   # backend work
 @cursor-rules.md @watcher.www/cursor-rules.md   # frontend work
+@cursor-rules.md @flutter/cursor-rules.md       # flutter work
 @com.auditor/apps/titanic/_docs/cursor-rules.md   # titanic app (example)
 
-@plan.docs/DevOps/FOUNDATIONS.md @plan.docs/DevOps/[Backend|Frontend]/..._RULES.md
+@_docs/DOC_PLACEMENT.md   # 문서를 어디에 쓸지
+@_docs/DevOps/FOUNDATIONS.md @_docs/DevOps/[Backend|Frontend]/..._RULES.md
 
 Acknowledge harness + DevOps rules, then [task].
-Add @plan.docs/{project}/ when product specs are required.
+Add @_docs/{project}/ when product specs are required.
 ```
 
 ## Acknowledgment (one line)
 
-`plan.docs acknowledged: FOUNDATIONS + [Backend|Frontend]_RULES (+ project MD) · harness: root + [backend|frontend|app] cursor-rules.md`
+`_docs acknowledged: FOUNDATIONS + [Backend|Frontend]_RULES (+ project MD) · harness: root + [backend|frontend|app] cursor-rules.md`

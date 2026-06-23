@@ -11,9 +11,12 @@ These rules take precedence over all other guidance in this repository. Cursor i
 | **Monorepo (this file)** | `CLAUDE.md` | 우선순위·PKS·LLM 행동 가이드 |
 | **Backend** | [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) | `com.auditor/` · FastAPI · DB · 도메인 앱 |
 | **Frontend** | [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) | `watcher.www/` · Next.js · UI |
+| **Flutter** | [`flutter/CLAUDE.md`](flutter/CLAUDE.md) | `flutter/` · Dart · 모바일 |
 | **App (sibling)** | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | 특정 백엔드 앱 — [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) § App-level specs 경유 (예: `titanic/_docs/CLAUDE.md`) |
 
-**우선순위:** **this file** + [`cursor-rules.md`](cursor-rules.md) > **child `CLAUDE.md`** > `plan.docs/{project}/` > `plan.docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+**우선순위:** **this file** + [`cursor-rules.md`](cursor-rules.md) > **child `CLAUDE.md`** > `_docs/{project}/` > `_docs/DevOps/*_RULES.md` > `FOUNDATIONS.md`
+
+**문서 배치 (어디에 쓸지):** 공통 MD → [`_docs/`](_docs/) · Backend → [`com.auditor/_docs/`](com.auditor/_docs/) · Frontend → [`watcher.www/_docs/`](watcher.www/_docs/) · Flutter → [`flutter/_docs/`](flutter/_docs/) · **루트 `CLAUDE.md`/`cursor-rules.md`에는 스택 전용 상세를 넣지 않는다.** 상세: [`_docs/DOC_PLACEMENT.md`](_docs/DOC_PLACEMENT.md)
 
 ---
 
@@ -26,16 +29,16 @@ These rules take precedence over all other guidance in this repository. Cursor i
 ## 2. PKS — Project Knowledge System (Wiki + LLM)
 
 - Implement and maintain **PKS (Project Knowledge System)** as the SSOT bridge between **wiki/docs** and **LLM agents**.
-- Before implementation, consult the relevant `plan.docs/` material (DevOps foundations, stack rules, product docs) — not only harness summaries.
+- Before implementation, consult the relevant `_docs/` material (DevOps foundations, stack rules, product docs) — not only harness summaries.
 - Docs precede code: when docs and code disagree, treat docs as authoritative unless the user explicitly requests a doc update.
 - After meaningful changes, update or propose updates to the wiki/docs when behavior, contracts, or env keys change.
 
 **PKS workflow (mandatory order):**
 
 1. Read **this file** and [`cursor-rules.md`](cursor-rules.md)
-2. Read child spec for your scope ([`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) / [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) / `apps/{domain}/_docs/CLAUDE.md`)
-3. Read [`plan.docs/DevOps/FOUNDATIONS.md`](plan.docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
-4. Read product-specific docs under `plan.docs/{project}/` when applicable
+2. Read child spec for your scope ([`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) / [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) / [`flutter/CLAUDE.md`](flutter/CLAUDE.md) / `apps/{domain}/_docs/CLAUDE.md`)
+3. Read [`_docs/DevOps/FOUNDATIONS.md`](_docs/DevOps/FOUNDATIONS.md) + stack rules (`BACKEND_RULES.md` / `REACT_RULES.md`)
+4. Read product-specific docs under `_docs/{project}/` when applicable
 5. Plan with explicit success criteria
 6. Implement
 7. Verify (test, lint, build, or reproducible manual check)
@@ -132,8 +135,15 @@ Weak success criteria like "make it work for now" invite endless back-and-forth.
 | File | Role |
 |------|------|
 | [`cursor-rules.md`](cursor-rules.md) | Cursor-injected summary (links to this tree) |
-| `CLAUDE.md` | Monorepo full spec (this file) |
+| `CLAUDE.md` | Monorepo full spec (this file) — **공통 harness만** |
+| [`_docs/DOC_PLACEMENT.md`](_docs/DOC_PLACEMENT.md) | **문서 배치 규칙 SSOT** (공통 vs 스택) |
+| [`_docs/`](_docs/) | 위키 · DevOps · 제품 — **스택 횡단** MD |
 | [`com.auditor/CLAUDE.md`](com.auditor/CLAUDE.md) | Backend architecture & stack |
+| [`com.auditor/_docs/`](com.auditor/_docs/) | Backend PKS (app, db, auth, entity, scaffold, mfds-erd) |
 | [`watcher.www/CLAUDE.md`](watcher.www/CLAUDE.md) | Frontend architecture & stack |
+| [`watcher.www/_docs/`](watcher.www/_docs/) | Frontend PKS (REACT_RULES, README) |
+| [`flutter/CLAUDE.md`](flutter/CLAUDE.md) | Flutter architecture & stack |
+| [`flutter/_docs/`](flutter/_docs/) | Flutter harness 본문 |
 | `com.auditor/apps/{domain}/_docs/CLAUDE.md` | Per-app backend spec (sibling apps) |
-| [`plan.docs/DevOps/`](plan.docs/DevOps/) | Wiki SSOT (detail) |
+| [`_docs/DevOps/`](_docs/DevOps/) | Wiki SSOT (detail) |
+| [`.obsidian/`](.obsidian/) | Obsidian vault config (monorepo root; wiki notes in `_docs/`) |

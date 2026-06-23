@@ -1,7 +1,14 @@
 {
+  "python.defaultInterpreterPath": "${env:USERPROFILE}/anaconda3/envs/pytorch_env/python.exe",
+  "python.analysis.extraPaths": [
+    "com.auditor/core",
+    "com.auditor/apps"
+  ],
   "python.analysis.exclude": [
     "**/.venv/**",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "watcher.www/**",
+    "flutter/**"
   ],
   "files.exclude": {
     "**/.venv": true

@@ -1,20 +1,24 @@
 {
   "main": {
-    "id": "587d69466ea333d7",
+    "id": "e36d554f2503b8b8",
     "type": "split",
     "children": [
       {
-        "id": "684bc5559483d2ff",
+        "id": "f3307df2ea1f24f5",
         "type": "tabs",
         "children": [
           {
-            "id": "d07a3d68a30fa28e",
+            "id": "c11b5564eca27aaf",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "그래프 뷰"
+              "type": "markdown",
+              "state": {
+                "file": "CLAUDE.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "CLAUDE"
             }
           }
         ]
@@ -23,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "3e2a3c9cb6ed4524",
+    "id": "2c81d3e2a5e2d65a",
     "type": "split",
     "children": [
       {
-        "id": "3d8e6379651dcac1",
+        "id": "14617c72afd9753c",
         "type": "tabs",
         "children": [
           {
-            "id": "a49cdb29e478df14",
+            "id": "4de7a1a899cd1806",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -44,7 +48,7 @@
             }
           },
           {
-            "id": "023e9404bbe3d025",
+            "id": "52e2987c725b660b",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -61,7 +65,7 @@
             }
           },
           {
-            "id": "f89e8dd213e6ee97",
+            "id": "545fb03862d3cb2a",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -77,19 +81,20 @@
     "width": 300
   },
   "right": {
-    "id": "0261827a671b2b1e",
+    "id": "e1025d8ffd3713a5",
     "type": "split",
     "children": [
       {
-        "id": "6edb3c1157e39787",
+        "id": "1c83b6cae5805be5",
         "type": "tabs",
         "children": [
           {
-            "id": "1696c8c671b3b398",
+            "id": "dfdcf858216fc3c5",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
+                "file": "환영합니다!.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,24 +104,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "백링크"
+              "title": "환영합니다! 의 백링크"
             }
           },
           {
-            "id": "de4d5e907d8b3b06",
+            "id": "f57c70c04252a94e",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "환영합니다!.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "나가는 링크"
+              "title": "환영합니다! 의 나가는 링크"
             }
           },
           {
-            "id": "a839906bb50b8566",
+            "id": "b61583c711aee209",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -131,7 +137,7 @@
             }
           },
           {
-            "id": "58eefc251126a2a7",
+            "id": "8708d60990754eb9",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -145,17 +151,18 @@
             }
           },
           {
-            "id": "d865e05e57741b21",
+            "id": "74af3897a446ab90",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
+                "file": "환영합니다!.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "개요"
+              "title": "환영합니다! 의 개요"
             }
           }
         ]
@@ -176,54 +183,36 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "d07a3d68a30fa28e",
+  "active": "c11b5564eca27aaf",
   "lastOpenFiles": [
-    "com.auditor/apps/titanic/_docs/cursor-rules.md",
-    "plan.docs/watcher.www/README.md",
-    "com.auditor/README.md",
-    "com.auditor/apps/titanic/app/use_cases/__pycache__/crew_walter_roaster_interactor.cpython-313.pyc.124717708475776",
-    "com.auditor/apps/titanic/app/ports/output/__pycache__/passenger_cal_tester_repository.cpython-313.pyc.124717708475920",
-    "com.auditor/apps/titanic/app/use_cases/__pycache__/passenger_rose_model_interactor.cpython-313.pyc.124717708474336",
-    "com.auditor/apps/titanic/app/ports/input/__pycache__/crew_walter_roaster_use_case.cpython-313.pyc.124717708472032",
-    "com.auditor/apps/titanic/app/use_cases/__pycache__/crew_smith_captain_interactor.cpython-313.pyc.124717708469296",
-    "com.auditor/apps/titanic/adapter/inbound/api/v1/__pycache__/crew_smith_captain_router.cpython-313.pyc.124717709755280",
-    "com.auditor/apps/titanic/adapter/outbound/ml/passenger_rose_model_ml_strategies.py",
-    "com.auditor/apps/titanic/adapter/outbound/ml/passenger_rose_model_feature_scalers.py",
-    "com.auditor/apps/titanic/adapter/outbound/ml",
-    "com.auditor/apps/titanic/app/ports/output/passenger_rose_model_feature_scaler.py",
-    "plan.docs/watcher.www/cursor-rules.md",
-    "com.auditor/apps/mfds_user/_docs/cursor-rules.md",
-    "com.auditor/apps/mfds_admin/_docs/cursor-rules.md",
-    "cursor-rules.md",
-    "plan.docs/com.auditor/cursor-rules.md",
-    "watcher.www/docs/VERCEL_DEPLOY.md",
-    "com.auditor/apps/mfds_admin/_docs/CLAUDE.md",
-    "plan.docs/com.auditor/app-rules.md",
-    "plan.docs/com.auditor/mfds-erd.md",
-    "plan.docs/com.auditor/CLAUDE.md",
-    "com.auditor/apps/titanic/_docs/CLAUDE.md",
-    "com.auditor/apps/titanic/_docs/titanic-erd.md",
-    "com.auditor/apps/titanic/_docs/titanic-algorithm.md",
-    "watcher.www/_claude/CLAUDE.md",
-    "watcher.www/README.md",
-    "com.auditor/_claude/CLAUDE.md",
+    "환영합니다!.md",
+    ".git",
     "CLAUDE.md",
-    "무제 1.canvas",
-    "무제.canvas",
-    "com.auditor/CLAUDE.md",
-    "plan.docs/DevOps/FOUNDATIONS.md",
-    "watcher.www/CLAUDE.md",
-    "watcher.www/claude.md",
-    "com.auditor/claude.md",
-    "claude.md",
-    "watcher.www/public/placeholder-user.jpg",
-    "watcher.www/public/placeholder-logo.svg",
-    "watcher.www/public/placeholder-logo.png",
-    "watcher.www/public/apple-icon.png",
-    "watcher.www/public/placeholder.svg",
-    "watcher.www/public/placeholder.jpg",
-    "watcher.www/public/icon-light-32x32.png",
-    "watcher.www/public/icon-dark-32x32.png",
-    "watcher.www/public/icon.svg"
+    "97-wiki",
+    "94-wiki",
+    ".obsidian/community-plugins.json",
+    ".obsidian/plugins/show-hidden-files/manifest.json",
+    ".obsidian/plugins/show-hidden-files/main.js",
+    ".obsidian/plugins/show-all-hidden-files/manifest.json",
+    ".obsidian/plugins/show-all-hidden-files/main.js",
+    ".obsidian/snippets/hide-cache.css",
+    ".obsidian/plugins/show-hidden-files",
+    "DevOps/Backend/MFDS_ERD.md",
+    "DevOps/Backend/TITANIC_ERD.md",
+    "Pasted image 20260521175427.png",
+    "HACCP 개발/haccp_monitor_phase3_cursor_prompt.md",
+    "HACCP 개발/haccp_monitor_phase2_cursor_prompt.md",
+    "HACCP 개발/haccp_monitor_cursor_prompt.md",
+    "HACCP 개발/haccp_monitor_admin_cursor_prompt.md",
+    "HACCP 개발/haccp_monitor_어드민로그인.md",
+    "HACCP 개발/haccp_monitor_어드민 프론트.md",
+    "HACCP 개발/haccp_monitor_regulation_chat_cursor_prompt.md",
+    "HACCP 개발/haccp_monitor_phase4_backend_db_cursor_prompt.md",
+    "DevOps/Backend/BACKEND_RULES.md",
+    "DevOps/Backend/ENTITY_RULES.md",
+    "DevOps/Projects/README.md",
+    "DevOps/FOUNDATIONS.md",
+    "DevOps/README.md",
+    "GoF 패턴.md"
   ]
 }
