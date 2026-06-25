@@ -33,3 +33,16 @@ services:
       BACKEND_URL: http://backend:8000
     depends_on:
       - backend
+
+  # n8n 워크플로우 자동화
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:
+    external: true
