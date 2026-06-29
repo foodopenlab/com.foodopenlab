@@ -48,20 +48,20 @@ services:
       timeout: 5s
       retries: 5
 
-  # korean-law-mcp (법령/판례 MCP 서버 — SSE mode)
+  # korean-law-mcp (법령/판례 MCP 서버 — Streamable HTTP)
   korean_law_mcp:
     image: node:20-alpine
     container_name: korean_law_mcp
     working_dir: /app
     command: >
       sh -c "npm install -g korean-law-mcp &&
-             korean-law-mcp --mode sse --port 3100"
+             korean-law-mcp --mode http --port 3100"
     ports:
       - "3100:3100"
     environment:
-      LAW_API_KEY: ${LAW_API_KEY}
+      LAW_OC: ${LAW_API_KEY}
     healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/sse 2>/dev/null; test $$? -ne 7"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/health 2>/dev/null; test $$? -ne 7"]
       interval: 15s
       timeout: 10s
       retries: 10
@@ -88,6 +88,8 @@ services:
       redis:
         condition: service_healthy
       graph_db:
+        condition: service_healthy
+      korean_law_mcp:
         condition: service_healthy
 
   frontend:
