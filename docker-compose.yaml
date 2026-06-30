@@ -61,7 +61,7 @@ services:
     environment:
       LAW_OC: ${LAW_API_KEY}
     healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider http://localhost:3100/health 2>/dev/null; test $$? -ne 7"]
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:3100/health 2>/dev/null; test $$? -ne 7"]
       interval: 15s
       timeout: 10s
       retries: 10
