@@ -60,6 +60,7 @@ services:
       - "3100:3100"
     environment:
       LAW_OC: ${LAW_API_KEY}
+      CORS_ORIGIN: ${KOREAN_LAW_MCP_CORS_ORIGIN:-http://localhost:8000}
     healthcheck:
       test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:3100/health 2>/dev/null; test $$? -ne 7"]
       interval: 15s
